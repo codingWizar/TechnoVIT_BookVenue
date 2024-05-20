@@ -114,58 +114,18 @@ if ( ! class_exists( 'WPHB_Post_Types' ) ) {
 			//Rating
 			$rating = hb_get_request( 'rating' );
 
-			if ( $rating ) {
-				$rating = explode( ',', $rating );
+			if( $rating !== 'all'){
+				$rating_query[] = array(
+					'relation' => 'AND',
+					array(
+						'key'     => 'hb_average_rating',
+						'value'   => $rating,
+						'compare' => '>=',
+						'type'    => 'DECIMAL(10, 3)',
+					)
+				);
 
-				$unrated_index = array_search( 'unrated', $rating );
-
-				if ( $unrated_index !== false ) {
-					$rating[ $unrated_index ] = 0;
-				}
-
-				$rating_count = count( $rating );
-				if ( ! empty( $rating_count ) ) {
-					$rating_query = array();
-
-					if ( $rating_count === 1 ) {
-						$rating_query[] = array(
-							'key'     => 'hb_average_rating',
-							'value'   => $rating[0],
-							'type'    => 'NUMERIC',
-							'compare' => '>=',
-						);
-
-						$rating_query[] = array(
-							'key'     => 'hb_average_rating',
-							'value'   => $rating[0] + 1,
-							'type'    => 'NUMERIC',
-							'compare' => '<',
-						);
-
-						$rating_query ['relation'] = 'AND';
-					} else {
-						for ( $i = 0; $i < $rating_count; $i ++ ) {
-							$rating_query[ $i ][] = array(
-								'key'     => 'hb_average_rating',
-								'value'   => $rating[ $i ],
-								'type'    => 'NUMERIC',
-								'compare' => '>=',
-							);
-							$rating_query[ $i ][] = array(
-								'key'     => 'hb_average_rating',
-								'value'   => $rating[ $i ] + 1,
-								'type'    => 'NUMERIC',
-								'compare' => '<',
-							);
-
-							$rating_query[ $i ]['relation'] = 'AND';
-						}
-
-						$rating_query ['relation'] = 'OR';
-					}
-
-					$meta_query[] = $rating_query;
-				}
+				$meta_query[] = $rating_query;
 			}
 
 			if ( count( $meta_query ) > 0 ) {

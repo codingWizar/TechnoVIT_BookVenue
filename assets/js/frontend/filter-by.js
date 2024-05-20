@@ -101,8 +101,8 @@
 
                 const url = new URL(window.location.href);
 
-                url.searchParams.set('min_price', parseInt(minPrice));
-                url.searchParams.set('max_price', parseInt(maxPrice));
+                url.searchParams.set('min_price', minPriceNode.value.toString());
+                url.searchParams.set('max_price', maxPriceNode.value.toString());
 
                 url.searchParams.set('paged', 1);
                 window.location.href = url;
@@ -118,40 +118,19 @@
         for (let i = 0; i < ratingFields.length; i++) {
             const ratingField = ratingFields[i];
 
-            const allInputs = ratingField.querySelectorAll('input[type="checkbox"]');
+            const allInputs = ratingField.querySelectorAll('input[type="radio"]');
 
-            let rating = [];
+            let rating = '';
             if (getParam('rating')) {
-                rating = getParam('rating').split(',');
+                rating = getParam('rating');
             }
 
-            [...rating].map(value => {
-                ratingField.querySelector(`input[name ="rating"][value ="${value}"]`).checked = true;
+            [...allInputs].map(input => {
+                if(input.value === rating){
+                    input.checked =  true;
+                }
+
             });
-
-            for (let i = 0; i < allInputs.length; i++) {
-                const input = allInputs[i];
-
-                input.addEventListener('change', function (event) {
-                    const allCheckedInput = ratingField.querySelectorAll('input[type="checkbox"]:checked');
-
-                    let value = [];
-                    [...allCheckedInput].map(checkedInput => {
-                        value.push(checkedInput.value);
-                    });
-
-                    const url = new URL(window.location.href);
-
-                    if (value.length) {
-                        url.searchParams.set('rating', value);
-                    } else {
-                        url.searchParams.delete('rating');
-                    }
-
-                    url.searchParams.set('paged', 1);
-                    // window.location.href = url;
-                });
-            }
         }
     }
 
@@ -163,7 +142,6 @@
         for (let i = 0; i < roomTypeFields.length; i++) {
             const roomTypeField = roomTypeFields[i];
 
-            const allInputs = roomTypeField.querySelectorAll('input[type="checkbox"]');
 
             let roomTypesValue = [];
             if (getParam('room_type')) {
@@ -173,31 +151,6 @@
             [...roomTypesValue].map(value => {
                 roomTypeField.querySelector(`input[name ="room_type"][value ="${value}"]`).checked = true;
             });
-
-            for (let i = 0; i < allInputs.length; i++) {
-                const input = allInputs[i];
-
-                input.addEventListener('change', function (event) {
-                    const allCheckedInput = roomTypeField.querySelectorAll('input[type="checkbox"]:checked');
-
-                    let value = [];
-                    [...allCheckedInput].map(checkedInput => {
-                        value.push(checkedInput.value);
-                    });
-
-                    const url = new URL(window.location.href);
-
-                    if (value.length) {
-                        url.searchParams.set('room_type', value);
-                    } else {
-                        url.searchParams.delete('room_type', value);
-                    }
-
-                    url.searchParams.set('paged', 1);
-
-                    // window.location.href = url;
-                });
-            }
         }
     }
 
@@ -480,14 +433,14 @@
                 //Rating
                 for (let i = 0; i < ratingFields.length; i++) {
                     const ratingField = ratingFields[i];
-                    const allCheckedInput = ratingField.querySelectorAll('input[type="checkbox"]:checked');
+                    const checkedInput = ratingField.querySelector('input[type="radio"]:checked');
 
-                    let value = [];
-                    [...allCheckedInput].map(checkedInput => {
-                        value.push(checkedInput.value);
-                    });
+                    let value = '';
+                    if(checkedInput){
+                        value = checkedInput.value;
+                    }
 
-                    if (value.length) {
+                    if (!!value) {
                         url.searchParams.set('rating', value);
                     }else if(url.searchParams.has('rating')){
                         url.searchParams.delete('rating');
