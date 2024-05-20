@@ -158,7 +158,7 @@ if ( ! class_exists( 'WPHB_Post_Types' ) ) {
 								'compare' => '<',
 							);
 
-							$rating_query[ $i ]['raltion'] = 'AND';
+							$rating_query[ $i ]['relation'] = 'AND';
 						}
 
 						$rating_query ['relation'] = 'OR';
