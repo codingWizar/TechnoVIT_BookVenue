@@ -2929,12 +2929,11 @@ if ( ! function_exists( 'wp_hotel_booking_get_count_rating' ) ) {
 				"SELECT COUNT($post_tbl.ID) FROM $post_tbl INNER JOIN $post_meta_tbl ON  
     					$post_tbl.ID = $post_meta_tbl.post_id WHERE $post_tbl.post_type = %s AND 
                        $post_tbl.post_status = %s AND $post_meta_tbl.meta_key = %s AND 
-                       $post_meta_tbl.meta_value >= %d AND $post_meta_tbl.meta_value < %d",
+                       $post_meta_tbl.meta_value >= %d",
 				'hb_room',
 				'publish',
 				'hb_average_rating',
 				$rating,
-				$rating + 1
 			)
 		);
 
