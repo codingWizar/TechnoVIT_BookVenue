@@ -216,10 +216,10 @@
                         alert('Check out date must be greater than or equal to today');
                         return false;
                     }
-                    if(_data.check_in_date_timestamp < time || _data.check_out_date_timestamp < time ){
+                    /*if(_data.check_in_date_timestamp < time || _data.check_out_date_timestamp < time ){
                         alert('You can\'t choose a date in the past');
                         return false;
-                    }
+                    }*/
                     Hotel_Booking_Room_Addon.beforeAjax(_taget);
                 }
             }).done(function (res) {
