@@ -73,7 +73,9 @@ $enable_advanced_review = hb_settings()->get( 'enable_advanced_review' ) === '1'
                             </div>
                             <div class="rating">
 								<?php
-								echo wc_get_rating_html( $average_rating );
+								if ( class_exists( 'WooCommerce' ) ) {
+									echo wc_get_rating_html( $average_rating );
+								}
 								?>
                             </div>
                         </div>
